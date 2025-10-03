@@ -45,7 +45,7 @@ Help us build a thriving repository of powerful n8n automations.
 
 ## Animations & Visuals
 
-Use these gifs to enhance your README or project documentation:
+Use our automation to enhance your project:
 
 - Workflow creation:  
   ![Create](https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif)
