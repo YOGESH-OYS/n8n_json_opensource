@@ -53,23 +53,6 @@ The workflow returns the transcribed video dialogue text in JSON format.
 
 ---
 
-## Animations & Visuals
-
-To enhance your README or project pages, use these simple gif animations:
-
-- Workflow status:  
-  ![Processing](https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif)
-
-- API working:  
-  ![Loading](https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif)
-
-- Success:  
-  ![Success](https://media.giphy.com/media/111ebonMs90YLu/giphy.gif)
-
-Embed these using Markdown for engaging visuals.
-
----
-
 ## Contributing
 
 Feel free to fork and extend this workflow! Pull requests and issues are welcome.
