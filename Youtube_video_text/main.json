@@ -14,7 +14,7 @@
               "id": "24e9b1c3-2955-4e0b-9b4b-a6b9d046fb72",
               "name": "apiKey",
               "type": "string",
-              "value": "YOUTUBE_API_KEY"
+              "value": "YOUTUBE_API"
             },
             {
               "id": "b6600a42-1b8d-486a-a51d-0868bc45452e",
@@ -36,8 +36,8 @@
       "name": "Set: Define Initial Variables",
       "type": "n8n-nodes-base.set",
       "position": [
-        1504,
-        720
+        1696,
+        976
       ],
       "typeVersion": 3.4
     },
@@ -66,8 +66,8 @@
       "name": "Set: Transcript Prompt",
       "type": "n8n-nodes-base.set",
       "position": [
-        1888,
-        720
+        1712,
+        1616
       ],
       "typeVersion": 3.4
     },
@@ -116,8 +116,8 @@
       "name": "Set Fields: Define Outcome",
       "type": "n8n-nodes-base.set",
       "position": [
-        3792,
-        720
+        1744,
+        1296
       ],
       "typeVersion": 3.4
     },
@@ -143,8 +143,8 @@
       "name": "HTTP Request to Google",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        2768,
-        720
+        2608,
+        1952
       ],
       "typeVersion": 4.2,
       "alwaysOutputData": true,
@@ -159,8 +159,8 @@
       "name": "Set: Merged Values",
       "type": "n8n-nodes-base.set",
       "position": [
-        2304,
-        720
+        1728,
+        1952
       ],
       "typeVersion": 3.4
     },
@@ -193,8 +193,8 @@
       "name": "If: Was an error detected?",
       "type": "n8n-nodes-base.if",
       "position": [
-        3312,
-        992
+        3184,
+        1952
       ],
       "typeVersion": 2.2,
       "disabled": true
@@ -208,8 +208,8 @@
       "name": "Code: Merge data from prior nodes with HTTP Output",
       "type": "n8n-nodes-base.code",
       "position": [
-        3312,
-        720
+        2608,
+        1376
       ],
       "typeVersion": 2
     },
@@ -220,8 +220,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        4224,
-        720
+        2592,
+        656
       ],
       "id": "7e0980f7-8d8c-44c0-bec6-468cb16539bd",
       "name": "Respond to Webhook"
@@ -235,12 +235,218 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        1152,
-        720
+        1456,
+        688
       ],
       "id": "2daa35da-ba10-4d76-a569-8baeb1fa4440",
       "name": "Webhook",
       "webhookId": "a19517f1-a7b9-4071-bd60-a6bbb7f326d3"
+    },
+    {
+      "parameters": {
+        "content": "## Process & Respond\n",
+        "height": 1328,
+        "width": 1120,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2368,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "b0691657-a54a-44c1-b438-6d27c31c4926",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": " \n## Receives incoming webhook data: youtubeURL, apiKey, promptType, automationID.\n\nThis starts the transcription workflow.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1872,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "a88f0473-ca3c-4326-ae2e-dca809db82b4",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Prepare Data\n",
+        "height": 1328,
+        "width": 1056,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "c6f63f78-032e-49ce-9c66-f63203761ea6",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## Transcription Request Listener\n",
+        "height": 304,
+        "width": 2208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        576
+      ],
+      "typeVersion": 1,
+      "id": "28e46b29-ad4a-4e3e-a7ff-a27cf682335e",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "## Responds to webhook request with transcription text and metadata.\n\nEnds transcription workflow.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2992,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "e22b612e-96b2-4807-8a1b-f323a522e60e",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "## Initializes variables like API key, YouTube URL, promptType (\"transcript\"), and automationID for the transcription request.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1872,
+        944
+      ],
+      "typeVersion": 1,
+      "id": "389951cd-456a-4604-9487-1653b8dad367",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## Extracts generated transcription, token usage, and model version from API response.\n\nPrepares final output JSON for webhook response.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1872,
+        1248
+      ],
+      "typeVersion": 1,
+      "id": "5a129f89-4f88-4804-a43f-23e2b6661753",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "## Sets transcription prompt: \"Transcribe the video. Return only the spoken dialogue, verbatim.\"\n\nSets model as \"gemini-2.5-flash\" for multimodal transcription.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1872,
+        1568
+      ],
+      "typeVersion": 1,
+      "id": "3f49f359-b7a1-45d5-b32b-f59e8aeaf46c",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "## Combines initial variables and prompt into unified JSON for the HTTP request node.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1872,
+        1904
+      ],
+      "typeVersion": 1,
+      "id": "21909e28-e480-44af-b856-a4bd98f6e288",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "## Merges HTTP response data with previous node data for downstream usage.\n\nPrepares transcription text and token counts.\n",
+        "height": 224,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2432,
+        1120
+      ],
+      "typeVersion": 1,
+      "id": "6e3ca55d-fdd4-40dc-9d5d-b56ad82f4f5d",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "## Calls Google Generative Language API POST /models/{{model}}:generateContent with API key.\n\nSends YouTube video URL and transcription prompt as multimodal input.\n\nReceives transcription response as output.\n",
+        "height": 288,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2448,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "bc28d5a1-ea49-4cc2-96f2-356156752a44",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "## IF EXECUTION ERROR INBETWEEN",
+        "height": 288,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2960,
+        1632
+      ],
+      "typeVersion": 1,
+      "id": "50cc359f-d0f0-4936-8ddd-c260b0b839f3",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": "## Transcription Workflow Usage Guide\n\n---\n\n### 1. Setup Google API Key\n\n- Go to [Google Cloud Console](https://console.cloud.google.com/).\n- Create or choose a project.\n- Enable **Google Generative Language API** or **Gemini API**.\n- Navigate to **Credentials** and create an **API key**.\n- Copy the API key for use in the workflow.\n\n---\n\n### 2. Configure n8n Workflow\n\n- Deploy the workflow with three main node groups:\n\n  - **Transcription Request Listener (Webhook nodes)**  \n    Listens for incoming requests containing:\n    - `youtubeURL` (YouTube video URL)  \n    - `apiKey` (Google API key)  \n\n  - **Prepare Data (Set nodes)**  \n    Prepares variables for the request including:\n    - Transcription prompt text  \n    - Target generative model (default `\"gemini-2.5-flash\"`)\n\n  - **Process & Respond (HTTP Request, Code & Response nodes)**  \n    Sends request to Google Generative Language API to transcribe video, processes AI response, and sends transcription back.\n\n---\n\n### 3. Using the Workflow\n\n- Send an HTTP POST request to the exposed webhook URL with JSON body:\n\n{\n\"youtubeURL\": \"https://youtu.be/<video_id>\",\n\"apiKey\": \"<Your_Google_API_Key>\",\n\"promptType\": \"transcript\",\n\"automationID\": \"optional-reference\"\n}\n\n\n- The workflow returns the transcribed video dialogue text as JSON.\n\n---\n\n### 4. Notes\n\n- Use valid API key for authentication.\n- Ensure the generative model supports video/audio (e.g. `\"gemini-2.5-flash\"`).\n- The prompt instructs the AI to transcribe spoken dialogue verbatim.\n- Handle any errors or rate limits as per Google API docs.\n\n---\n\n",
+        "height": 1360,
+        "width": 752
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "b72d28e2-c924-4d71-a5e8-8ca5ec0382a4",
+      "name": "Sticky Note"
     }
   ],
   "connections": {
