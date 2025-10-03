@@ -1,0 +1,334 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "72590fa0-cf12-4249-80fc-7aaec9992390",
+              "name": "automationID",
+              "type": "string",
+              "value": "optional-enter-reference-tracking-identifier"
+            },
+            {
+              "id": "24e9b1c3-2955-4e0b-9b4b-a6b9d046fb72",
+              "name": "apiKey",
+              "type": "string",
+              "value": "YOUTUBE_API_KEY"
+            },
+            {
+              "id": "b6600a42-1b8d-486a-a51d-0868bc45452e",
+              "name": "youtubeURL",
+              "type": "string",
+              "value": "https://youtu.be/drQK8ciCAjY?si=kequbiuHwuyRyG1U"
+            },
+            {
+              "id": "ce9a9a40-5ae4-4106-ae61-0daba2ec185f",
+              "name": "promptType",
+              "type": "string",
+              "value": "transcript"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "67e1c684-6fa8-4a7a-b767-3fecc32d0ce3",
+      "name": "Set: Define Initial Variables",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1504,
+        720
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8be68e95-53df-492f-a88a-14c06f51f531",
+              "name": "prompt",
+              "type": "string",
+              "value": "=Transcribe the video. Return only the spoken dialogue, verbatim. Omit any additional text or descriptions."
+            },
+            {
+              "id": "b445c2da-934f-4a78-a57b-f383d8950f8a",
+              "name": "model",
+              "type": "string",
+              "value": "gemini-2.5-flash"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "7bc407c3-4df2-44ef-b344-928e140cd66d",
+      "name": "Set: Transcript Prompt",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1888,
+        720
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "300bfbe7-8d13-41ba-8828-17bba1d0eabe",
+              "name": "answerAIGenerated",
+              "type": "string",
+              "value": "={{ $json.candidates?.[0]?.content?.parts?.[0]?.text ? $json.candidates[0].content.parts[0].text : ($json.error ? $json.error : \"No content or error found\") }}"
+            },
+            {
+              "id": "a54eeb5d-e4de-4fd9-a15c-be51cc414c46",
+              "name": "promptTokenCount",
+              "type": "string",
+              "value": "={{ $json.usageMetadata?.promptTokenCount ? $json.usageMetadata.promptTokenCount : ($json.error ? $json.error : \"No content or error found\") }}"
+            },
+            {
+              "id": "dd590788-069e-48d9-adb2-6a5d10f8af2f",
+              "name": "candidatesTokenCount",
+              "type": "string",
+              "value": "={{ $json.usageMetadata?.candidatesTokenCount ? $json.usageMetadata.candidatesTokenCount : ($json.error ? $json.error : \"No content or error found\") }}"
+            },
+            {
+              "id": "23766495-25df-4d3d-bc62-9e79a860ee19",
+              "name": "totalTokenCount",
+              "type": "string",
+              "value": "={{ $json.usageMetadata?.totalTokenCount ? $json.usageMetadata.totalTokenCount : ($json.error ? $json.error : \"No content or error found\") }}"
+            },
+            {
+              "id": "cfad5ba2-a2c5-48ff-b64b-9131a51fd23c",
+              "name": "modelVersionUsed",
+              "type": "string",
+              "value": "={{ $json.modelVersion ? $json.modelVersion : ($json.error ? $json.error : \"No content or error found\") }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "except",
+        "excludeFields": "candidates, usageMetadata",
+        "options": {}
+      },
+      "id": "18f79fac-13b4-412c-9f9d-1bcbce9c5eb4",
+      "name": "Set Fields: Define Outcome",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        3792,
+        720
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/{{ $json.model }}:generateContent?key={{ $json.apiKey }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [\n      { \"text\": {{ JSON.stringify($json.prompt) }} },\n      { \"file_data\": { \"file_uri\": \"{{ $json.youtubeURL }}\" } }\n    ]\n  }]\n}",
+        "options": {}
+      },
+      "id": "becc0c69-b390-4758-a224-a6f170002b04",
+      "name": "HTTP Request to Google",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2768,
+        720
+      ],
+      "typeVersion": 4.2,
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "fd2abb23-bdf1-49d2-93b9-dae0e66b1826",
+      "name": "Set: Merged Values",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        2304,
+        720
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "148e9a72-f826-468c-86a3-471873717ed4",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.error }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f18b0f5b-6def-476a-8e0c-e66884a129f5",
+      "name": "If: Was an error detected?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        3312,
+        992
+      ],
+      "typeVersion": 2.2,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {\n  json: {\n    ...$json, // Keep data from http request\n    ...$('Set: Merged Values').item.json, // Keep data from before http request\n  }\n};\n\n\n\n"
+      },
+      "id": "9b76e191-0d0a-4873-985a-ded9284326d4",
+      "name": "Code: Merge data from prior nodes with HTTP Output",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        3312,
+        720
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        4224,
+        720
+      ],
+      "id": "7e0980f7-8d8c-44c0-bec6-468cb16539bd",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "path": "a19517f1-a7b9-4071-bd60-a6bbb7f326d3",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1152,
+        720
+      ],
+      "id": "2daa35da-ba10-4d76-a569-8baeb1fa4440",
+      "name": "Webhook",
+      "webhookId": "a19517f1-a7b9-4071-bd60-a6bbb7f326d3"
+    }
+  ],
+  "connections": {
+    "Set: Define Initial Variables": {
+      "main": [
+        [
+          {
+            "node": "Set: Transcript Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set: Transcript Prompt": {
+      "main": [
+        [
+          {
+            "node": "Set: Merged Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Fields: Define Outcome": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request to Google": {
+      "main": [
+        [
+          {
+            "node": "Code: Merge data from prior nodes with HTTP Output",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If: Was an error detected?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set: Merged Values": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request to Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code: Merge data from prior nodes with HTTP Output": {
+      "main": [
+        [
+          {
+            "node": "Set Fields: Define Outcome",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set: Define Initial Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "0556d42a3e9fe1d8b06eeb5e9981feef7405e26084d40409f10279852a5b07e3"
+  }
+}
